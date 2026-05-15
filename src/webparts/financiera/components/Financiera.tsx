@@ -5,12 +5,14 @@ import type { IFinancieraProps } from './IFinancieraProps';
 const Financiera: React.FC<IFinancieraProps> = ({
   description,
   environmentMessage,
-  userDisplayName
+  userDisplayName,
+  userPhotoUrl
 }) => {
   return (
     <Home
       appName="Circo Finanzas"
       userDisplayName={userDisplayName}
+      userPhotoUrl={userPhotoUrl}
       description={description}
       environmentMessage={environmentMessage}
     />

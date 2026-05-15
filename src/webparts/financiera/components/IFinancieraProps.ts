@@ -4,4 +4,5 @@ export interface IFinancieraProps {
   environmentMessage: string;
   hasTeamsContext: boolean;
   userDisplayName: string;
+  userPhotoUrl?: string;
 }

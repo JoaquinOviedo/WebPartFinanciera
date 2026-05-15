@@ -1,5 +1,5 @@
 export interface IHeaderProps {
-  appName: string;
   userDisplayName: string;
+  userPhotoUrl?: string;
   onMenuClick?: () => void;
 }

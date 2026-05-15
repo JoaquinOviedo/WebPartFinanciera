@@ -7,12 +7,13 @@ import { escape } from '@microsoft/sp-lodash-subset';
 const Home: React.FC<IHomeProps> = ({
   appName,
   userDisplayName,
+  userPhotoUrl,
   environmentMessage,
   description
 }) => {
   return (
     <div className={styles.home}>
-      <Header appName={appName} userDisplayName={userDisplayName} />
+      <Header userDisplayName={userDisplayName} userPhotoUrl={userPhotoUrl} />
       <main className={styles.main}>
         <section className={styles.hero}>
           <h1>Bienvenido a {escape(appName)}.</h1>

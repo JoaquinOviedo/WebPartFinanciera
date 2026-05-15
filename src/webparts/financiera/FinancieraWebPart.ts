@@ -22,6 +22,11 @@ export default class FinancieraWebPart extends BaseClientSideWebPart<IFinanciera
   private _environmentMessage: string = '';
 
   public render(): void {
+    const userLoginName = this.context.pageContext.user.loginName || '';
+    const userPhotoUrl = userLoginName
+      ? `${this.context.pageContext.web.absoluteUrl}/_layouts/15/userphoto.aspx?size=L&accountname=${encodeURIComponent(userLoginName)}`
+      : undefined;
+
     const element: React.ReactElement<IFinancieraProps> = React.createElement(
       Financiera,
       {
@@ -29,7 +34,8 @@ export default class FinancieraWebPart extends BaseClientSideWebPart<IFinanciera
         isDarkTheme: this._isDarkTheme,
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
-        userDisplayName: this.context.pageContext.user.displayName
+        userDisplayName: this.context.pageContext.user.displayName,
+        userPhotoUrl: userPhotoUrl
       }
     );
 
