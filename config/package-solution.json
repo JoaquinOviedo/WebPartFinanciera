@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "wep-part-financiera-client-side-solution",
+    "id": "5c0dffb9-54d9-4d18-966a-1020eb650472",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.18.2"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "WepPartFinanciera description"
+      },
+      "longDescription": {
+        "default": "WepPartFinanciera description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "wep-part-financiera Feature",
+        "description": "The feature that activates elements of the wep-part-financiera solution.",
+        "id": "7af8b948-ff8e-4dde-b10b-333d34aeb417",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/wep-part-financiera.sppkg"
+  }
+}

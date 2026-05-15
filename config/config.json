@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "financiera-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/financiera/FinancieraWebPart.js",
+          "manifest": "./src/webparts/financiera/FinancieraWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "FinancieraWebPartStrings": "lib/webparts/financiera/loc/{locale}.js"
+  }
+}
