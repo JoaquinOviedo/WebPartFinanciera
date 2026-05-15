@@ -1,12 +1,12 @@
+@import './variables.scss';
+
 .header {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding: 1rem 1.25rem;
-  background-color: "[theme:bodyBackground, default: #ffffff]";
-  background-color: var(--bodyBackground, #ffffff);
-  border-bottom: 1px solid "[theme:bodyFrameDivider, default: #edebe9]";
-  border-bottom: 1px solid var(--bodyFrameDivider, #edebe9);
+  padding: 0.75rem 1rem;
+  background-color: var(--ypf-white);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
 }
 
 .headerLeft {
@@ -21,14 +21,14 @@
 }
 
 .userName {
-  color: "[theme:bodyText, default: #323130]";
-  color: var(--bodyText);
+  color: var(--ypf-dark);
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .menuButton {
   min-width: auto;
+  color: var(--ypf-dark);
 }
 
 .userPhoto {
@@ -36,6 +36,5 @@
   height: 36px;
   width: 36px;
   object-fit: cover;
-  border: 1px solid "[theme:bodyFrameDivider, default: #edebe9]";
-  border: 1px solid var(--bodyFrameDivider, #edebe9);
+  border: 1px solid rgba(0,0,0,0.06);
 }

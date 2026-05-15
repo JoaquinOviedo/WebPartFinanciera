@@ -1,0 +1,17 @@
+/* YPF-inspired design tokens (CSS custom properties) */
+:root {
+  --ypf-blue: #0033A0;
+  --ypf-dark: #001E62;
+  --ypf-accent: #00A3E0;
+  --ypf-white: #FFFFFF;
+  --ypf-bg: #F4F6F8;
+  --ypf-text-secondary: #5F6B7A;
+
+  --card-radius: 10px;
+  --card-shadow: 0 6px 18px rgba(3, 19, 43, 0.06);
+  --card-padding: 1.25rem;
+
+  --button-primary-bg: var(--ypf-blue);
+  --button-primary-bg-hover: #002b85;
+  --button-primary-color: var(--ypf-white);
+}

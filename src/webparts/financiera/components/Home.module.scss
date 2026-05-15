@@ -1,7 +1,15 @@
+@import './variables.scss';
+
 .home {
-  min-height: 100%;
-  background-color: "[theme:bodyBackground, default: #ffffff]";
-  background-color: var(--bodyBackground, #ffffff);
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 480px;
+  max-width: 100%;
+  overflow: hidden;
+  background-color: var(--ypf-bg);
+  color: var(--ypf-dark);
 }
 
 .main {
@@ -14,17 +22,15 @@
 }
 
 .subtitle {
-  color: "[theme:bodySubtext, default: #605e5c]";
-  color: var(--bodySubtext, #605e5c);
-  font-size: 1.1rem;
-  margin: 0.5rem 0 1.5rem;
+  color: var(--ypf-text-secondary);
+  font-size: 1.05rem;
+  margin: 0.5rem 0 1.25rem;
 }
 
 .card {
-  border: 1px solid "[theme:bodyFrameDivider, default: #edebe9]";
-  border: 1px solid var(--bodyFrameDivider, #edebe9);
-  border-radius: 8px;
-  padding: 1.25rem;
-  background-color: "[theme:bodyStandoutBackground, default: #f3f2f1]";
-  background-color: var(--bodyStandoutBackground, #f3f2f1);
+  border-radius: var(--card-radius);
+  padding: var(--card-padding);
+  background-color: var(--ypf-white);
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(3,19,43,0.04);
 }
