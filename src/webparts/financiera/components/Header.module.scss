@@ -1,0 +1,42 @@
+.header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background-color: "[theme:bodyBackground, default: #ffffff]";
+  background-color: var(--bodyBackground, #ffffff);
+  border-bottom: 1px solid "[theme:bodyFrameDivider, default: #edebe9]";
+  border-bottom: 1px solid var(--bodyFrameDivider, #edebe9);
+}
+
+.headerLeft {
+  color: "[theme:bodyText, default: #323130]";
+  color: var(--bodyText);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.userName {
+  font-size: 0.95rem;
+  opacity: 0.88;
+}
+
+.headerRight {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.appName {
+  color: "[theme:primaryButtonText, default: #ffffff]";
+  color: var(--buttonText, #ffffff);
+  background-color: "[theme:themePrimary, default: #0078d4]";
+  background-color: var(--themePrimary, #0078d4);
+  border-radius: 999px;
+  padding: 0.5rem 0.85rem;
+  font-weight: 600;
+}
+
+.menuButton {
+  min-width: auto;
+}
