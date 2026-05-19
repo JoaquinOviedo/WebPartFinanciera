@@ -14,7 +14,9 @@ const Home: React.FC<IHomeProps> = ({
     <div className={styles.home}>
       <main className={styles.main}>
         <section className={styles.hero}>
-          <h1>Bienvenido a {escape(appName)}.</h1>
+          <h1>
+            Bienvenido a {escape(appName)}.
+          </h1> 
           <p className={styles.subtitle}>
             Hola {escape(userDisplayName)}, esta es tu página de inicio en Circo Finanzas.
           </p>

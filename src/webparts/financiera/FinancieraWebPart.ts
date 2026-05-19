@@ -9,8 +9,8 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
 import * as strings from 'FinancieraWebPartStrings';
-import Financiera from './components/Financiera';
-import { IFinancieraProps } from './components/IFinancieraProps';
+import Financiera from './Financiera';
+import { IFinancieraProps } from './components/shared/IFinancieraProps';
 
 export interface IFinancieraWebPartProps {
   description: string;

@@ -2,11 +2,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Hosted workbench",
-      "type": "msedge",
+      "name": "Hosted workbench (Chrome)",
+      "type": "pwa-chrome",
       "request": "launch",
-      "url": "https://{tenantDomain}/_layouts/workbench.aspx",
-      "webRoot": "${workspaceRoot}",
+      "preLaunchTask": "SPFx: gulp serve",
+      "url": "https://circo.sharepoint.com/_layouts/workbench.aspx",
+      "webRoot": "${workspaceFolder}",
       "sourceMaps": true,
       "sourceMapPathOverrides": {
         "webpack:///.././src/*": "${webRoot}/src/*",
@@ -14,9 +15,9 @@
         "webpack:///../../../../src/*": "${webRoot}/src/*",
         "webpack:///../../../../../src/*": "${webRoot}/src/*"
       },
+      "runtimeExecutable": "stable",
       "runtimeArgs": [
-        "--remote-debugging-port=9222",
-        "-incognito"
+        "--profile-directory=Default"
       ]
     }
   ]
