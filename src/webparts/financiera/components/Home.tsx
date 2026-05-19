@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styles from './Home.module.scss';
 import type { IHomeProps } from './IHomeProps';
-import Header from './Header';
 import { escape } from '@microsoft/sp-lodash-subset';
 
 const Home: React.FC<IHomeProps> = ({
@@ -13,7 +12,6 @@ const Home: React.FC<IHomeProps> = ({
 }) => {
   return (
     <div className={styles.home}>
-      <Header userDisplayName={userDisplayName} userPhotoUrl={userPhotoUrl} />
       <main className={styles.main}>
         <section className={styles.hero}>
           <h1>Bienvenido a {escape(appName)}.</h1>

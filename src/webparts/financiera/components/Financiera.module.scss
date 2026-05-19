@@ -1,12 +1,29 @@
-@import '~@fluentui/react/dist/sass/References.scss';
+@import './variables.scss';
 
 .financiera {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   overflow: hidden;
-  padding: 1em;
-  color: "[theme:bodyText, default: #323130]";
-  color: var(--bodyText);
+  color: var(--ypf-dark);
+  
   &.teams {
-    font-family: $ms-font-family-fallbacks;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  }
+
+  &.dark {
+    background-color: #001E62;
+  }
+}
+
+.container {
+  flex: 1;
+  overflow-y: auto;
+  background-color: var(--ypf-bg);
+  padding: 0;
+
+  @media (max-width: 640px) {
+    padding: 0;
   }
 }
 

@@ -1,0 +1,130 @@
+@import './variables.scss';
+
+.grafica {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 2rem;
+    color: var(--ypf-blue);
+    margin: 0 0 0.5rem 0;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 1rem;
+    color: var(--ypf-text-secondary);
+    margin: 0;
+  }
+}
+
+.chartContainer {
+  background-color: var(--ypf-white);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--card-shadow);
+}
+
+.chart {
+  display: flex;
+  gap: 1rem;
+  height: 350px;
+  align-items: flex-end;
+  position: relative;
+}
+
+.yAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: right;
+  padding-right: 0.5rem;
+  min-width: 40px;
+  font-size: 0.85rem;
+  color: var(--ypf-text-secondary);
+  font-weight: 500;
+}
+
+.bars {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-end;
+  flex: 1;
+  justify-content: space-around;
+}
+
+.barWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  max-width: 60px;
+}
+
+.barContainer {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background-color: var(--ypf-bg);
+  border-radius: 4px 4px 0 0;
+  position: relative;
+}
+
+.bar {
+  width: 80%;
+  background: linear-gradient(180deg, var(--ypf-blue) 0%, var(--ypf-dark) 100%);
+  border-radius: 4px 4px 0 0;
+  transition: all 0.3s ease;
+  min-height: 2px;
+
+  &:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 0 8px rgba(0, 51, 160, 0.3);
+  }
+}
+
+.barLabel {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--ypf-dark);
+  font-weight: 500;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.statCard {
+  background-color: var(--ypf-white);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+
+  h3 {
+    font-size: 0.95rem;
+    color: var(--ypf-text-secondary);
+    margin: 0 0 0.5rem 0;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+}
+
+.value {
+  font-size: 2rem;
+  color: var(--ypf-blue);
+  margin: 0;
+  font-weight: 700;
+}
