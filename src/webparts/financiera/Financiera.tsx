@@ -75,6 +75,7 @@ const Financiera: React.FC<IFinancieraProps> = ({
             userPhotoUrl={userPhotoUrl}
             environmentMessage={environmentMessage}
             description={description}
+            onNavigate={handleNavigate}
           />
         );
     }

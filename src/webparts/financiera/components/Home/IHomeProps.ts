@@ -4,4 +4,5 @@ export interface IHomeProps {
   userPhotoUrl?: string;
   environmentMessage: string;
   description: string;
+  onNavigate: (screen: 'home' | 'galeria' | 'grafica' | 'administracion') => void;
 }
