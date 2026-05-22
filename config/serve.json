@@ -1,6 +1,6 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/spfx-serve.schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/core-build/serve.schema.json",
   "port": 4321,
   "https": true,
-  "initialPage": "https://circo.sharepoint.com/_layouts/workbench.aspx"
+  "initialPage": "https://circo.sharepoint.com/sites/SPXTest/SitePages/WebpartFinanciera.aspx"
 }

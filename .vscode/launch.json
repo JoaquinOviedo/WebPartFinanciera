@@ -6,7 +6,25 @@
       "type": "pwa-chrome",
       "request": "launch",
       "preLaunchTask": "SPFx: gulp serve",
-      "url": "https://circo.sharepoint.com/_layouts/workbench.aspx",
+      "url": "https://circo.sharepoint.com/sites/SPXTest/SitePages/WebpartFinanciera.aspx?debug=true&noredir=true&debugManifestsFile=https://localhost:4321/temp/manifests.js",
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:///.././src/*": "${webRoot}/src/*",
+        "webpack:///../../../src/*": "${webRoot}/src/*",
+        "webpack:///../../../../src/*": "${webRoot}/src/*",
+        "webpack:///../../../../../src/*": "${webRoot}/src/*"
+      },
+      "runtimeExecutable": "stable",
+      "runtimeArgs": [
+        "--profile-directory=Default"
+      ]
+    },    {
+      "name": "Hoster Workwench (Edge)",
+      "type": "msedge",
+      "request": "launch",
+      "preLaunchTask": "SPFx: gulp serve",
+      "url": "https://circo.sharepoint.com/sites/SPXTest/_layouts/15/workbench.aspx",
       "webRoot": "${workspaceFolder}",
       "sourceMaps": true,
       "sourceMapPathOverrides": {

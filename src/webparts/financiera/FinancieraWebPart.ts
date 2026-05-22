@@ -11,6 +11,8 @@ import { IReadonlyTheme } from '@microsoft/sp-component-base';
 import * as strings from 'FinancieraWebPartStrings';
 import Financiera from './Financiera';
 import { IFinancieraProps } from './components/shared/IFinancieraProps';
+require("../../core/ui/css/fix.css");
+require("../../core/ui/css/formatWorkbench.css");
 
 export interface IFinancieraWebPartProps {
   description: string;
