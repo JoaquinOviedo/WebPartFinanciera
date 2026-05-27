@@ -4,16 +4,16 @@
  */
 
 import { useEffect, useState } from 'react';
-import { SPHttpClient } from '@microsoft/sp-http';
-import { SharePointConnection, SharePointConfigManager } from '../services';
+import { SharePointConfigManager, SharePointPnpConnection } from '../services';
+import type { WebPartContext } from '@microsoft/sp-webpart-base';
 
 /**
- * Hook para conectar con SharePoint
- * @param spHttpClient Cliente HTTP de SharePoint
+ * Hook para conectar con SharePoint usando PnPJS
  * @param configKey Clave de la configuración a usar
+ * @param spfxContext Contexto de SPFx requerido para PnP
  * 
  * EJEMPLO DE USO:
- * const { connection, loading, error } = useSharePointConnection(props.spHttpClient, 'financiera');
+ * const { connection, loading, error } = useSharePointConnection('financiera', this.context);
  * 
  * if (loading) return <div>Cargando...</div>;
  * if (error) return <div>Error: {error.message}</div>;
@@ -21,18 +21,18 @@ import { SharePointConnection, SharePointConfigManager } from '../services';
  * const items = await connection.getItems('MiLista');
  */
 export const useSharePointConnection = (
-  spHttpClient: SPHttpClient,
-  configKey: string
+  configKey: string,
+  spfxContext: WebPartContext
 ) => {
-  const [connection, setConnection] = useState<SharePointConnection | null>(null);
+  const [connection, setConnection] = useState<SharePointPnpConnection | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     try {
       const config = SharePointConfigManager.getConfig(configKey);
-      const newConnection = new SharePointConnection(spHttpClient, config);
-      setConnection(newConnection);
+      const pnpConnection = new SharePointPnpConnection(spfxContext, config);
+      setConnection(pnpConnection);
       setError(null);
     } catch (err) {
       setError(err as Error);
@@ -40,7 +40,7 @@ export const useSharePointConnection = (
     } finally {
       setLoading(false);
     }
-  }, [spHttpClient, configKey]);
+  }, [configKey, spfxContext]);
 
   return { connection, loading, error };
 };

@@ -4,6 +4,7 @@
 export interface ISharePointConfig {
   siteUrl: string;
   listName?: string;
+  // listId remains optional for legacy scenarios, but PnP usage only requires siteUrl and listName when querying lists.
   listId?: string;
 }
 

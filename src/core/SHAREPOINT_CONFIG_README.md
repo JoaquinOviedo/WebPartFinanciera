@@ -9,6 +9,31 @@ Este módulo proporciona una conexión centralizada a SharePoint para el WebPart
 - **useSharePointConnection**: Hook de React para facilitar el uso
 - **Tipos TypeScript**: Interfaces para mayor seguridad de tipos
 
+
+## ✅ PnPJS como comportamiento por defecto
+
+Este proyecto utiliza **PnPJS** (`@pnp/sp`) por defecto para las conexiones a SharePoint. Si no se pasa la opción `usePnp:false`, el hook y las utilidades usarán PnP y requerirán el `WebPartContext`.
+
+- La dependencia `@pnp/sp` ya se añadió a `package.json`.
+- `SharePointPnpConnection` inicializa PnP si se le pasa `spfxContext`.
+
+Ejemplo mínimo desde un `WebPart` (PnP por defecto):
+
+```typescript
+// En tu WebPart
+import { useSharePointConnection } from './core/hooks/useSharePointConnection';
+
+// PnP es usado por defecto; sólo necesitas pasar el context
+const { connection, loading, error } = useSharePointConnection(
+  null,
+  'financiera',
+  { spfxContext: this.context }
+);
+
+// connection será una instancia de SharePointPnpConnection
+```
+
+
 ## 🚀 Pasos de Configuración
 
 ### 1. Configura tus URLs de SharePoint

@@ -19,18 +19,16 @@ export class SharePointConfigManager {
    * Agrupa por funcionalidad o sitio
    */
   private static readonly configs: { [key: string]: ISharePointConfig } = {
-    // Ejemplo: configuración para listas financieras
+    // Ejemplo: configuración para listas financieras usando PnP
     financiera: {
       siteUrl: 'https://tupagina.sharepoint.com/sites/tusite', // REEMPLAZAR
       listName: 'FinancieraList', // REEMPLAZAR
-      listId: '', // REEMPLAZAR (opcional)
     },
 
     // Agregar más configuraciones según necesites
     // ejemplo: {
     //   siteUrl: 'https://tupagina.sharepoint.com/sites/otrosite',
     //   listName: 'OtraLista',
-    //   listId: 'list-id-guid',
     // }
   };
 
