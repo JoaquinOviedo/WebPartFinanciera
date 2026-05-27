@@ -5,7 +5,7 @@
 
 import { useEffect, useState } from 'react';
 import { SPHttpClient } from '@microsoft/sp-http';
-import { SharePointConnection, SharePointConfigManager, ISharePointItem } from '../services';
+import { SharePointConnection, SharePointConfigManager } from '../services';
 
 /**
  * Hook para conectar con SharePoint

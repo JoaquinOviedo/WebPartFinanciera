@@ -1,8 +1,9 @@
 import * as React from 'react';
-import styles from './Grafica.module.scss';
+import stylesSource from './Grafica.module.scss';
+
+const styles = stylesSource as Record<string, string>;
 
 const Grafica: React.FC = () => {
-  // Datos de ejemplo
   const chartData = [
     { mes: 'Ene', valor: 45 },
     { mes: 'Feb', valor: 52 },
@@ -12,13 +13,30 @@ const Grafica: React.FC = () => {
     { mes: 'Jun', valor: 67 },
   ];
 
-  const maxValue = Math.max(...chartData.map(d => d.valor));
+  const maxValue = Math.max(...chartData.map((d) => d.valor));
+  const average = (chartData.reduce((acc, d) => acc + d.valor, 0) / chartData.length).toFixed(2);
+  const minValue = Math.min(...chartData.map((d) => d.valor));
 
   return (
     <main className={styles.grafica}>
       <div className={styles.header}>
         <h1>Gráfica de Análisis</h1>
-        <p>Visualización de datos financieros</p>
+        <p>Visualización de datos financieros y tendencias del mercado.</p>
+      </div>
+
+      <div className={styles.summaryCards}>
+        <div className={styles.summaryCard}>
+          <span>Promedio</span>
+          <strong>{average}</strong>
+        </div>
+        <div className={styles.summaryCard}>
+          <span>Máximo</span>
+          <strong>{maxValue}</strong>
+        </div>
+        <div className={styles.summaryCard}>
+          <span>Mínimo</span>
+          <strong>{minValue}</strong>
+        </div>
       </div>
 
       <div className={styles.chartContainer}>
@@ -47,22 +65,18 @@ const Grafica: React.FC = () => {
         </div>
       </div>
 
-      <div className={styles.stats}>
+      <div className={styles.statsGrid}>
         <div className={styles.statCard}>
-          <h3>Promedio</h3>
-          <p className={styles.value}>
-            {(chartData.reduce((acc, d) => acc + d.valor, 0) / chartData.length).toFixed(2)}
-          </p>
+          <h3>Rendimiento actual</h3>
+          <p className={styles.value}>+7.4%</p>
         </div>
         <div className={styles.statCard}>
-          <h3>Máximo</h3>
-          <p className={styles.value}>{maxValue}</p>
+          <h3>Volatilidad</h3>
+          <p className={styles.value}>Moderada</p>
         </div>
         <div className={styles.statCard}>
-          <h3>Mínimo</h3>
-          <p className={styles.value}>
-            {Math.min(...chartData.map(d => d.valor))}
-          </p>
+          <h3>Actividad reciente</h3>
+          <p className={styles.value}>6 eventos</p>
         </div>
       </div>
     </main>

@@ -5,10 +5,10 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  min-height: 480px;
+  min-height: 100%;
   max-width: 100%;
   overflow: hidden;
-  background-color: var(--ypf-white);
+  background-color: var(--ypf-bg);
   color: var(--ypf-dark);
 }
 
@@ -16,13 +16,21 @@
   padding: 2rem 1.5rem 3rem;
 }
 
-.topIntro {
+.hero {
   max-width: 1120px;
   margin: 0 auto 2rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+.heroIntro {
+  display: grid;
+  gap: 1rem;
 }
 
 .sectionTag {
-  margin: 0 0 0.75rem;
+  margin: 0;
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -32,24 +40,53 @@
 
 .pageTitle {
   margin: 0;
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 2.5vw, 3rem);
   color: var(--ypf-dark);
 }
 
 .pageText {
-  margin: 1rem 0 0;
+  margin: 0;
   max-width: 760px;
   color: var(--ypf-text-secondary);
   line-height: 1.7;
 }
 
-.bodyGrid {
-  max-width: 1120px;
-  margin: 0 auto;
+.heroCards {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 380px;
-  gap: 2rem;
-  align-items: start;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.heroCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-radius: var(--card-radius);
+  background-color: var(--ypf-white);
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(3, 19, 43, 0.05);
+}
+
+.metricIcon {
+  font-size: 1.75rem;
+  color: var(--ypf-blue);
+  width: 48px;
+  min-width: 48px;
+  text-align: center;
+}
+
+.cardLabel {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--ypf-text-secondary);
+}
+
+.cardValue {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 1.8rem;
+  color: var(--ypf-dark);
 }
 
 .bodyGrid {
@@ -62,38 +99,104 @@
 }
 
 .leftPanel {
-  padding: 0.5rem 0;
+  display: grid;
+  gap: 1.5rem;
 }
 
-.leftPanel h2 {
-  margin-top: 0;
-  font-size: 2rem;
+.card {
+  border-radius: var(--card-radius);
+  padding: var(--card-padding);
+  background-color: var(--ypf-white);
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(3, 19, 43, 0.04);
+}
+
+.overviewCard {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cardSubtitle {
+  margin: 0.5rem 0 0;
+  color: var(--ypf-text-secondary);
+  font-size: 0.95rem;
+}
+
+.userAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(3, 19, 43, 0.08);
+}
+
+.highlightList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.highlightItem {
+  display: grid;
+  gap: 0.35rem;
+  border-radius: 12px;
+  background-color: var(--ypf-bg);
+  padding: 1rem;
+  border: 1px solid rgba(3, 19, 43, 0.06);
+}
+
+.highlightValue {
+  font-size: 1.5rem;
+  font-weight: 700;
   color: var(--ypf-dark);
 }
 
-.leftPanel p {
-  margin: 1rem 0 1.5rem;
-  color: var(--ypf-text-secondary);
-  line-height: 1.75;
+.actionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.quickLinks {
+  display: grid;
+  gap: 1rem;
+}
+
+.quickLinkList {
+  display: grid;
+  gap: 1rem;
+}
+
+.quickLinkItem {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: var(--ypf-bg);
+  border: 1px solid rgba(3, 19, 43, 0.06);
+}
+
+.quickLinkItem strong {
+  font-size: 1.5rem;
+  color: var(--ypf-blue);
 }
 
 .rightPanel {
-  background-color: var(--ypf-white);
-  border: 1px solid rgba(3, 19, 43, 0.08);
-  border-radius: var(--card-radius);
-  padding: 1.5rem;
-  box-shadow: var(--card-shadow);
+  display: grid;
+  gap: 1rem;
 }
 
 .rightPanel h2 {
-  margin: 0 0 1rem;
+  margin: 0 0 0.75rem;
   font-size: 1.2rem;
   color: var(--ypf-dark);
-}
-
-.actionList {
-  display: grid;
-  gap: 1rem;
 }
 
 .actionButton {
@@ -142,21 +245,16 @@
   line-height: 1.4;
 }
 
-.card {
-  border-radius: var(--card-radius);
-  padding: var(--card-padding);
-  background-color: var(--ypf-white);
-  box-shadow: var(--card-shadow);
-  border: 1px solid rgba(3, 19, 43, 0.04);
-}
-
 @media screen and (max-width: 900px) {
-  .headerContent {
-    flex-direction: column;
-    align-items: flex-start;
+  .bodyGrid {
+    grid-template-columns: 1fr;
   }
 
-  .bodyGrid {
+  .heroCards {
+    grid-template-columns: 1fr;
+  }
+
+  .highlightList {
     grid-template-columns: 1fr;
   }
 }

@@ -23,6 +23,33 @@
   }
 }
 
+.summaryCards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.summaryCard {
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  background-color: var(--ypf-white);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: var(--card-shadow);
+  display: grid;
+  gap: 0.35rem;
+}
+
+.summaryCard span {
+  font-size: 0.9rem;
+  color: var(--ypf-text-secondary);
+}
+
+.summaryCard strong {
+  font-size: 1.6rem;
+  color: var(--ypf-dark);
+}
+
 .chartContainer {
   background-color: var(--ypf-white);
   border: 1px solid rgba(0, 0, 0, 0.06);
@@ -99,7 +126,7 @@
   font-weight: 500;
 }
 
-.stats {
+.statsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
