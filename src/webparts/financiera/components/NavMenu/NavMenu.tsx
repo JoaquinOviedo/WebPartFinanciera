@@ -1,23 +1,19 @@
 import * as React from 'react';
 import { IconButton } from '@fluentui/react';
+import { NavLink } from 'react-router-dom';
 import styles from './NavMenu.module.scss';
 
 interface INavMenuProps {
   isOpen: boolean;
-  currentScreen: 'home' | 'galeria' | 'grafica' | 'administracion';
-  onNavigate: (screen: 'home' | 'galeria' | 'grafica' | 'administracion') => void;
   onClose: () => void;
 }
 
 const NavMenu: React.FC<INavMenuProps> = ({
   isOpen,
-  currentScreen,
-  onNavigate,
   onClose
 }) => {
-  const handleNavigate = (screen: 'home' | 'galeria' | 'grafica' | 'administracion'): void => {
-    onNavigate(screen);
-  };
+  const getLinkClass = ({ isActive }: { isActive: boolean }): string =>
+    `${styles.menuItem} ${isActive ? styles.active : ''}`;
 
   return (
     <>
@@ -40,40 +36,28 @@ const NavMenu: React.FC<INavMenuProps> = ({
 
         <ul className={styles.menuList}>
           <li>
-            <button
-              className={`${styles.menuItem} ${currentScreen === 'home' ? styles.active : ''}`}
-              onClick={() => handleNavigate('home')}
-            >
+            <NavLink to="/" className={getLinkClass} onClick={onClose}>
               <i className={`${styles.icon} ms-Icon ms-Icon--Home`} />
               <span>Inicio</span>
-            </button>
+            </NavLink>
           </li>
           <li>
-            <button
-              className={`${styles.menuItem} ${currentScreen === 'galeria' ? styles.active : ''}`}
-              onClick={() => handleNavigate('galeria')}
-            >
+            <NavLink to="/galeria" className={getLinkClass} onClick={onClose}>
               <i className={`${styles.icon} ms-Icon ms-Icon--ImageCollection`} />
               <span>Galería de Instrumentos</span>
-            </button>
+            </NavLink>
           </li>
           <li>
-            <button
-              className={`${styles.menuItem} ${currentScreen === 'grafica' ? styles.active : ''}`}
-              onClick={() => handleNavigate('grafica')}
-            >
+            <NavLink to="/grafica" className={getLinkClass} onClick={onClose}>
               <i className={`${styles.icon} ms-Icon ms-Icon--BarChart4`} />
               <span>Gráfica</span>
-            </button>
+            </NavLink>
           </li>
           <li>
-            <button
-              className={`${styles.menuItem} ${currentScreen === 'administracion' ? styles.active : ''}`}
-              onClick={() => handleNavigate('administracion')}
-            >
+            <NavLink to="/administracion" className={getLinkClass} onClick={onClose}>
               <i className={`${styles.icon} ms-Icon ms-Icon--Settings`} />
               <span>Administración</span>
-            </button>
+            </NavLink>
           </li>
         </ul>
       </nav>

@@ -1,23 +1,24 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.scss';
 import type { IHomeProps } from './IHomeProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 
 const actionItems = [
   {
-    screen: 'galeria' as const,
+    path: '/galeria',
     icon: 'ImageCollection',
     label: 'Galería de Instrumentos',
     description: 'Explora los instrumentos financieros disponibles.'
   },
   {
-    screen: 'grafica' as const,
+    path: '/grafica',
     icon: 'BarChart4',
     label: 'Gráfica',
     description: 'Consulta visualizaciones y tendencias clave.'
   },
   {
-    screen: 'administracion' as const,
+    path: '/administracion',
     icon: 'Settings',
     label: 'Administración',
     description: 'Ajusta la configuración y gestiona tu espacio.'
@@ -29,9 +30,10 @@ const Home: React.FC<IHomeProps> = ({
   userDisplayName,
   userPhotoUrl,
   environmentMessage,
-  description,
-  onNavigate
+  description
 }) => {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.home}>
       <main className={styles.main}>
@@ -49,10 +51,10 @@ const Home: React.FC<IHomeProps> = ({
             <div className={styles.actionList}>
               {actionItems.map((item) => (
                 <button
-                  key={item.screen}
+                  key={item.path}
                   className={styles.actionButton}
                   type="button"
-                  onClick={() => onNavigate(item.screen)}
+                  onClick={() => navigate(item.path)}
                 >
                   <i className={`${styles.actionIcon} ms-Icon ms-Icon--${item.icon}`} aria-hidden="true" />
                   <div className={styles.actionInfo}>

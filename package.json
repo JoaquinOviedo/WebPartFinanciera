@@ -21,7 +21,8 @@
     "@microsoft/sp-property-pane": "1.18.2",
     "@microsoft/sp-webpart-base": "1.18.2",
     "@microsoft/sp-lodash-subset": "1.18.2",
-    "@microsoft/sp-office-ui-fabric-core": "1.18.2"
+    "@microsoft/sp-office-ui-fabric-core": "1.18.2",
+    "react-router-dom": "^6.14.2"
   },
   "devDependencies": {
     "@microsoft/rush-stack-compiler-4.7": "0.1.0",
