@@ -12,7 +12,7 @@ interface AdministracionProps {
 const initialForm: IPortafolioPayload = {
   Title: '',
   Descripcion: '',
-  moneda_base: ''
+  moneda_base: undefined
 };
 
 const Administracion: React.FC<AdministracionProps> = ({ spfxContext }) => {
@@ -38,7 +38,7 @@ const Administracion: React.FC<AdministracionProps> = ({ spfxContext }) => {
     setForm({
       Title: item.Title || '',
       Descripcion: item.Descripcion || '',
-      moneda_base: item.moneda_base || ''
+      moneda_base: item.moneda_base === 'USD' || item.moneda_base === 'ARS' ? item.moneda_base : undefined
     });
     setMessage(null);
     setFormError(null);
@@ -77,6 +77,11 @@ const Administracion: React.FC<AdministracionProps> = ({ spfxContext }) => {
 
     if (!form.Title.trim()) {
       setFormError('El campo Nombre es obligatorio.');
+      return;
+    }
+
+    if (form.moneda_base !== 'USD' && form.moneda_base !== 'ARS') {
+      setFormError('La moneda base debe ser USD o ARS.');
       return;
     }
 
@@ -148,15 +153,14 @@ const Administracion: React.FC<AdministracionProps> = ({ spfxContext }) => {
               <select
                 id="moneda_base"
                 name="moneda_base"
-                value={form.moneda_base}
+                value={form.moneda_base ?? ''}
                 onChange={handleChange}
                 className={styles.formInput}
                 disabled={submitting}
               >
                 <option value="">Selecciona una moneda</option>
                 <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="PEN">PEN</option>
+                <option value="ARS">ARS</option>
               </select>
 
               {formError && <div className={styles.messageError}>{formError}</div>}
@@ -180,7 +184,6 @@ const Administracion: React.FC<AdministracionProps> = ({ spfxContext }) => {
                       <th>Nombre</th>
                       <th>Moneda</th>
                       <th>Creado</th>
-                      <th>Creado por</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>
@@ -190,7 +193,6 @@ const Administracion: React.FC<AdministracionProps> = ({ spfxContext }) => {
                         <td>{item.Title || '-'}</td>
                         <td>{item.moneda_base || '-'}</td>
                         <td>{item.Created ? new Date(item.Created).toLocaleDateString() : '-'}</td>
-                        <td>{item.Author?.Title || '-'}</td>
                         <td className={styles.actionsCell}>
                           <button type="button" className={styles.buttonSecondary} onClick={() => handleEdit(item)}>
                             Editar
@@ -203,7 +205,7 @@ const Administracion: React.FC<AdministracionProps> = ({ spfxContext }) => {
                     ))}
                     {items.length === 0 && (
                       <tr>
-                        <td colSpan={5}>No hay portafolios registrados.</td>
+                        <td colSpan={4}>No hay portafolios registrados.</td>
                       </tr>
                     )}
                   </tbody>
