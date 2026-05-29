@@ -5,4 +5,4 @@
 export { SharePointConnection } from './SharePointConnection';
 export { SharePointPnpConnection } from './SharePointPnpConnection';
 export { SharePointConfigManager } from './SharePointConfig';
-export type { ISharePointConfig, ISharePointResponse, ISharePointItem } from './ISharePointConfig';
+export type { ISharePointConfig, ISharePointResponse, ISharePointField, ISharePointItem } from './ISharePointConfig';

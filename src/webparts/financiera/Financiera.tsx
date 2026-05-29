@@ -16,7 +16,8 @@ const Financiera: React.FC<IFinancieraProps> = ({
   environmentMessage,
   hasTeamsContext,
   userDisplayName,
-  userPhotoUrl
+  userPhotoUrl,
+  spfxContext
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -52,7 +53,7 @@ const Financiera: React.FC<IFinancieraProps> = ({
             />
             <Route path="/galeria" element={<GaleriaInstrumentos />} />
             <Route path="/grafica" element={<Grafica />} />
-            <Route path="/administracion" element={<Administracion />} />
+            <Route path="/administracion" element={<Administracion spfxContext={spfxContext} />} />
             <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
         </div>

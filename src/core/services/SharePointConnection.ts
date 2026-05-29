@@ -1,5 +1,5 @@
-import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
-import { ISharePointConfig, ISharePointResponse, ISharePointItem } from './ISharePointConfig';
+import { SPHttpClient, SPHttpClientResponse, ISPHttpClientOptions } from '@microsoft/sp-http';
+import { ISharePointConfig, ISharePointResponse, ISharePointField, ISharePointItem } from './ISharePointConfig';
 
 /**
  * Servicio para manejar conexiones a SharePoint
@@ -23,17 +23,26 @@ export class SharePointConnection {
   public async getItems<T extends ISharePointItem>(
     listName: string,
     filter?: string,
-    select?: string[]
+    select?: string[],
+    expand?: string[]
   ): Promise<T[]> {
     try {
-      const queryUrl = this.buildListUrl(listName, filter, select);
+      const queryUrl = this.buildListUrl(listName, filter, select, expand);
+      const options: ISPHttpClientOptions = {
+        headers: {
+          Accept: 'application/json;odata=nometadata'
+        }
+      };
       const response: SPHttpClientResponse = await this.spHttpClient.get(
         queryUrl,
-        SPHttpClient.configurations.v1
+        SPHttpClient.configurations.v1,
+        options
       );
 
       if (!response.ok) {
-        throw new Error(`Error fetching items: ${response.statusText}`);
+        const bodyText = await response.text();
+        console.error('SharePoint getItems failed', { queryUrl, status: response.status, statusText: response.statusText, bodyText });
+        throw new Error(`Error fetching items: ${response.status} ${response.statusText} ${bodyText}`);
       }
 
       const data: ISharePointResponse<T> = await response.json();
@@ -76,6 +85,33 @@ export class SharePointConnection {
    * @param listName Nombre de la lista
    * @param item Datos del item a crear
    */
+  public async getFields(
+    listName: string,
+    onlyVisible: boolean = true
+  ): Promise<ISharePointField[]> {
+    try {
+      const queryUrl = `${this.config.siteUrl}/_api/web/lists/getbytitle('${listName}')/fields`;
+      const response: SPHttpClientResponse = await this.spHttpClient.get(
+        queryUrl,
+        SPHttpClient.configurations.v1
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error fetching fields: ${response.statusText}`);
+      }
+
+      const data: ISharePointResponse<ISharePointField> = await response.json();
+      const fields = data.value;
+
+      return onlyVisible
+        ? fields.filter((field) => !field.Hidden && !field.ReadOnlyField)
+        : fields;
+    } catch (error) {
+      console.error('Error in getFields:', error);
+      throw error;
+    }
+  }
+
   public async createItem<T extends ISharePointItem>(
     listName: string,
     item: T
@@ -166,13 +202,17 @@ export class SharePointConnection {
   /**
    * Construye la URL de consulta OData
    */
-  private buildListUrl(listName: string, filter?: string, select?: string[]): string {
+  private buildListUrl(listName: string, filter?: string, select?: string[], expand?: string[]): string {
     let queryUrl = `${this.config.siteUrl}/_api/web/lists/getbytitle('${listName}')/items`;
 
     const params: string[] = [];
 
     if (select && select.length > 0) {
       params.push(`$select=${select.join(',')}`);
+    }
+
+    if (expand && expand.length > 0) {
+      params.push(`$expand=${expand.join(',')}`);
     }
 
     if (filter) {

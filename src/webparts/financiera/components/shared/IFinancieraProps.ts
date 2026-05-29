@@ -1,3 +1,5 @@
+import type { WebPartContext } from '@microsoft/sp-webpart-base';
+
 export interface IFinancieraProps {
   description: string;
   isDarkTheme: boolean;
@@ -5,4 +7,5 @@ export interface IFinancieraProps {
   hasTeamsContext: boolean;
   userDisplayName: string;
   userPhotoUrl?: string;
+  spfxContext: WebPartContext;
 }

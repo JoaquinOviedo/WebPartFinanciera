@@ -16,6 +16,16 @@ export interface ISharePointResponse<T> {
   odata?: any;
 }
 
+export interface ISharePointField {
+  Title: string;
+  InternalName: string;
+  TypeAsString: string;
+  Hidden: boolean;
+  ReadOnlyField: boolean;
+  Required: boolean;
+  [key: string]: any;
+}
+
 /**
  * Interfaz para items genéricos de SharePoint
  */

@@ -19,17 +19,17 @@ export class SharePointConfigManager {
    * Agrupa por funcionalidad o sitio
    */
   private static readonly configs: { [key: string]: ISharePointConfig } = {
-    // Ejemplo: configuración para listas financieras usando PnP
-    financiera: {
-      siteUrl: 'https://tupagina.sharepoint.com/sites/tusite', // REEMPLAZAR
-      listName: 'FinancieraList', // REEMPLAZAR
+    // Configuración para la lista Portafolio
+    portafolio: {
+      siteUrl: 'https://circo.sharepoint.com/sites/SPXTest',
+      listName: 'Portafolio'
     },
 
-    // Agregar más configuraciones según necesites
-    // ejemplo: {
-    //   siteUrl: 'https://tupagina.sharepoint.com/sites/otrosite',
-    //   listName: 'OtraLista',
-    // }
+    // Ejemplo adicional
+    financiera: {
+      siteUrl: 'https://tupagina.sharepoint.com/sites/tusite',
+      listName: 'FinancieraList'
+    }
   };
 
   /**

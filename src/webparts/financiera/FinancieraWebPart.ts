@@ -37,7 +37,8 @@ export default class FinancieraWebPart extends BaseClientSideWebPart<IFinanciera
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
         userDisplayName: this.context.pageContext.user.displayName,
-        userPhotoUrl: userPhotoUrl
+        userPhotoUrl: userPhotoUrl,
+        spfxContext: this.context
       }
     );
 
