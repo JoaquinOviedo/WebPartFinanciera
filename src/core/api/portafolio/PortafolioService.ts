@@ -1,9 +1,9 @@
 // Servicio que gestiona los portafolios en SharePoint
 import type { WebPartContext } from '@microsoft/sp-webpart-base';
-import { SharePointConfigManager } from './SharePointConfig';
-import { SharePointConnection } from './SharePointConnection';
+import { SharePointConfigManager } from '../../services/SharePointConfig';
+import { SharePointConnection } from '../../services/SharePointConnection';
 import type { IPortafolioItem, IPortafolioPayload } from './PortafolioTypes';
-import type { ISharePointField } from './ISharePointConfig';
+import type { ISharePointField } from '../../services/ISharePointConfig';
 
 export class PortafolioService {
   private readonly connection: SharePointConnection;

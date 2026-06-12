@@ -1,4 +1,4 @@
-import type { ISharePointItem } from './ISharePointConfig';
+import type { ISharePointItem } from '../../services/ISharePointConfig';
 
 export type MonedaBase = 'USD' | 'ARS';
 

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useState } from 'react';
 import type { WebPartContext } from '@microsoft/sp-webpart-base';
-import { usePortafolio } from '../../../../core/hooks/usePortafolio';
-import type { IPortafolioItem, IPortafolioPayload } from '../../../../core/services/PortafolioTypes';
+import { usePortafolio } from '../../../../core/api/portafolio/usePortafolio';
+import type { IPortafolioItem, IPortafolioPayload } from '../../../../core/api/portafolio/PortafolioTypes';
 import styles from './Administracion.module.scss';
 
 interface AdministracionProps {

@@ -12,10 +12,9 @@
     "skipLibCheck": true,
     "outDir": "lib",
     "inlineSources": false,
-    "noImplicitAny": true,
-    "esModuleInterop": true,
+    "strictNullChecks": false,
+    "noUnusedLocals": false,
     "allowSyntheticDefaultImports": true,
-
     "typeRoots": [
       "./node_modules/@types",
       "./node_modules/@microsoft"
@@ -32,7 +31,10 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.d.ts"
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib"
   ]
-}
+} 
