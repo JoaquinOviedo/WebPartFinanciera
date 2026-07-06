@@ -4,8 +4,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow: visible;
   color: var(--ypf-dark);
   
   &.teams {
@@ -21,10 +21,10 @@
   flex: 1;
   overflow-y: auto;
   background-color: var(--ypf-bg);
-  padding: 0;
+  padding: 1rem 1.25rem;
 
   @media (max-width: 640px) {
-    padding: 0;
+    padding: 0.5rem;
   }
 }
 

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { WebPartContext } from '@microsoft/sp-webpart-base';
-import { PortafolioService } from '../services/PortafolioService';
-import type { IPortafolioItem, IPortafolioPayload } from '../services/PortafolioTypes';
+import { PortafolioService } from './PortafolioService';
+import type { IPortafolioItem, IPortafolioPayload } from './PortafolioTypes';
 import type { ISharePointField } from '../../services/ISharePointConfig';
 
 export interface IUsePortafolioResult {

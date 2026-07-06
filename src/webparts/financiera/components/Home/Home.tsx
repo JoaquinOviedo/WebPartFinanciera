@@ -11,44 +11,20 @@ const actionItems = [
     path: '/galeria',
     icon: 'ImageCollection',
     label: 'Galería de Instrumentos',
-    description: 'Explora los instrumentos financieros disponibles.'
+    color: '#E8751C'
   },
   {
     path: '/grafica',
     icon: 'BarChart4',
     label: 'Gráfica',
-    description: 'Consulta visualizaciones y tendencias clave.'
+    color: '#6A4A9C'
   },
   {
     path: '/administracion',
     icon: 'Settings',
     label: 'Administración',
-    description: 'Ajusta la configuración y gestiona tu espacio.'
+    color: '#0B5DAA'
   }
-];
-
-const metrics = [
-  {
-    icon: 'Trending12',
-    label: 'Tendencia semanal',
-    value: '+12.8%'
-  },
-  {
-    icon: 'Money',
-    label: 'Valor total',
-    value: '$1.2M'
-  },
-  {
-    icon: 'Shield',
-    label: 'Seguridad',
-    value: 'Operativo'
-  }
-];
-
-const highlights = [
-  { label: 'Nuevos instrumentos', value: '6' },
-  { label: 'Alertas hoy', value: '2' },
-  { label: 'Tareas pendientes', value: '4' }
 ];
 
 const Home: React.FC<IHomeProps> = ({
@@ -61,94 +37,76 @@ const Home: React.FC<IHomeProps> = ({
   const navigate = useNavigate();
 
   return (
-    <div className={styles.home}>
-      <main className={styles.main}>
-        <section className={styles.hero}>
-          <div className={styles.heroIntro}>
-            <p className={styles.sectionTag}>Inicio</p>
-            <h1 className={styles.pageTitle}>Hola {escape(userDisplayName)}, bienvenido a {escape(appName)}</h1>
-            <p className={styles.pageText}>
-              Administra tus instrumentos, sigue las tendencias clave y controla la configuración desde un solo lugar.
-            </p>
-          </div>
-
-          <div className={styles.heroCards}>
-            {metrics.map((item) => (
-              <article key={item.label} className={styles.heroCard}>
-                <i className={`${styles.metricIcon} ms-Icon ms-Icon--${item.icon}`} aria-hidden="true" />
-                <div>
-                  <span className={styles.cardLabel}>{item.label}</span>
-                  <strong className={styles.cardValue}>{item.value}</strong>
+    <div className={styles.homeContainer}>
+      <main className={styles.homeMain}>
+        <section className={styles.contentGrid}>
+          {/* Columna izquierda - Mensaje de bienvenida */}
+          <div className={styles.leftColumn}>
+            <div className={`${styles.card} ${styles.welcomeCard}`}>
+              <div className={styles.welcomeContent}>
+                <div className={styles.iconCircle}>
+                  💡
                 </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className={styles.bodyGrid}>
-          <div className={styles.leftPanel}>
-            <div className={`${styles.card} ${styles.overviewCard}`}>
-              <div className={styles.cardHeader}>
-                <div>
-                  <h2>Resumen rápido</h2>
-                  <p className={styles.cardSubtitle}>{environmentMessage || description}</p>
-                </div>
-                {userPhotoUrl && (
-                  <img src={userPhotoUrl} alt={escape(userDisplayName)} className={styles.userAvatar} />
-                )}
-              </div>
-              <p>
-                Revisa los indicadores principales, accede a las funciones clave y mantén tu espacio financiero siempre actualizado.
-              </p>
-
-              <div className={styles.highlightList}>
-                {highlights.map((item) => (
-                  <div key={item.label} className={styles.highlightItem}>
-                    <span className={styles.highlightValue}>{item.value}</span>
-                    <span>{item.label}</span>
+                <h1 className={styles.welcomeTitle}>{escape(appName)}</h1>
+                <p className={styles.welcomeText}>
+                  Te damos la bienvenida al sistema de gestión financiera. Un espacio para administrar tus instrumentos, 
+                  seguir tendencias clave y optimizar tu portafolio desde un solo lugar.
+                </p>
+                <div className={styles.welcomeUser}>
+                  {userPhotoUrl && (
+                    <img src={userPhotoUrl} alt={escape(userDisplayName)} className={styles.userProfilePic} />
+                  )}
+                  <div>
+                    <p className={styles.welcomeUserName}>{escape(userDisplayName)}</p>
+                    <p className={styles.welcomeUserRole}>Gestor Financiero</p>
                   </div>
-                ))}
+                </div>
               </div>
             </div>
+          </div>
 
-            <div className={styles.actionGrid}>
+          {/* Columna derecha - Botones de navegación */}
+          <div className={styles.rightColumn}>
+            <div className={styles.navigationGrid}>
               {actionItems.map((item) => (
                 <button
                   key={item.path}
-                  className={styles.actionButton}
-                  type="button"
+                  className={styles.navButton}
                   onClick={() => navigate(item.path)}
+                  style={{ 
+                    backgroundColor: item.color,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '1.5rem',
+                    padding: '2rem',
+                    border: 'none',
+                    borderRadius: '12px',
+                    color: 'white',
+                    fontSize: '1.1rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                    minHeight: '140px',
+                    textAlign: 'left'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.15)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+                  }}
                 >
-                  <i className={`${styles.actionIcon} ms-Icon ms-Icon--${item.icon}`} aria-hidden="true" />
-                  <div className={styles.actionInfo}>
-                    <span className={styles.actionLabel}>{item.label}</span>
-                    <span className={styles.actionDescription}>{item.description}</span>
-                  </div>
+                  <span style={{ textAlign: 'left', lineHeight: '1.3', flex: 1 }}>{item.label}</span>
+                  <i className={`ms-Icon ms-Icon--${item.icon}`} style={{ fontSize: '2.8rem', color: 'rgba(255, 255, 255, 0.95)', minWidth: '60px', textAlign: 'center', flexShrink: 0 }} />
                 </button>
               ))}
             </div>
           </div>
-
-          <aside className={styles.rightPanel}>
-            <div className={`${styles.card} ${styles.quickLinks}`}>
-              <h2>Acciones rápidas</h2>
-              <p>Selecciona una sección para comenzar o revisa tu estado actual en segundos.</p>
-              <div className={styles.quickLinkList}>
-                <div className={styles.quickLinkItem}>
-                  <strong>35</strong>
-                  <span>Avisos pendientes</span>
-                </div>
-                <div className={styles.quickLinkItem}>
-                  <strong>8</strong>
-                  <span>Actualizaciones recientes</span>
-                </div>
-                <div className={styles.quickLinkItem}>
-                  <strong>14</strong>
-                  <span>Elementos guardados</span>
-                </div>
-              </div>
-            </div>
-          </aside>
         </section>
       </main>
     </div>
