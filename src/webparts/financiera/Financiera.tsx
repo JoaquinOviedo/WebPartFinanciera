@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { useState } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import styles from './Financiera.module.scss';
 import type { IFinancieraProps } from './components/shared/IFinancieraProps';
 import Header from './components/Header/Header';
-import NavMenu from './components/NavMenu/NavMenu';
+import { AppLayout } from './components/shared/ui';
 import Home from './components/Home/Home';
 import GaleriaInstrumentos from './components/GaleriaInstrumentos/GaleriaInstrumentos';
 import Grafica from './components/Grafica/Grafica';
@@ -19,44 +18,47 @@ const Financiera: React.FC<IFinancieraProps> = ({
   userPhotoUrl,
   spfxContext
 }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const handleMenuClick = (): void => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
   return (
     <Router>
       <div className={`${styles.financiera} ${isDarkTheme ? styles.dark : ''}`}>
-        <Header
-          userDisplayName={userDisplayName}
-          userPhotoUrl={userPhotoUrl}
-          onMenuClick={handleMenuClick}
-        />
-        <NavMenu
-          isOpen={isMenuOpen}
-          onClose={() => setIsMenuOpen(false)}
-        />
-        <div className={styles.container}>
+        <AppLayout
+          header={<Header userDisplayName={userDisplayName} userPhotoUrl={userPhotoUrl} />}
+        >
           <Routes>
             <Route
               path="/"
               element={
-                <Home
-                  appName="Circo Finanzas"
-                  userDisplayName={userDisplayName}
-                  userPhotoUrl={userPhotoUrl}
-                  environmentMessage={environmentMessage}
-                  description={description}
-                />
+                <div className={styles.container}>
+                  <Home
+                    appName="Circo Finanzas"
+                    userDisplayName={userDisplayName}
+                    userPhotoUrl={userPhotoUrl}
+                    environmentMessage={environmentMessage}
+                    description={description}
+                  />
+                </div>
               }
             />
-            <Route path="/galeria" element={<GaleriaInstrumentos />} />
-            <Route path="/grafica" element={<Grafica />} />
+            <Route
+              path="/galeria"
+              element={
+                <div className={styles.container}>
+                  <GaleriaInstrumentos />
+                </div>
+              }
+            />
+            <Route
+              path="/grafica"
+              element={
+                <div className={styles.container}>
+                  <Grafica />
+                </div>
+              }
+            />
             <Route path="/administracion" element={<Administracion spfxContext={spfxContext} />} />
             <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
-        </div>
+        </AppLayout>
       </div>
     </Router>
   );

@@ -1,23 +1,16 @@
 import * as React from 'react';
-import { IconButton } from '@fluentui/react';
 import styles from './Header.module.scss';
 import type { IHeaderProps } from './IHeaderProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 
 const Header: React.FC<IHeaderProps> = ({
   userDisplayName,
-  userPhotoUrl,
-  onMenuClick
+  userPhotoUrl
 }) => {
   return (
     <header className={styles.header}>
       <div className={styles.headerLeft}>
-        <IconButton
-          className={styles.menuButton}
-          iconProps={{ iconName: 'GlobalNavButton' }}
-          ariaLabel="Abrir menú"
-          onClick={onMenuClick}
-        />
+        <span style={{ fontSize: '1.2rem', fontWeight: 600, color: 'var(--ypf-blue)' }}>Ideas YPF</span>
       </div>
       <div className={styles.headerRight}>
         <span className={styles.userName}>{escape(userDisplayName)}</span>

@@ -3,7 +3,12 @@ import { useState } from 'react';
 import type { WebPartContext } from '@microsoft/sp-webpart-base';
 import { usePortafolio } from '../../../../core/api/portafolio/usePortafolio';
 import type { IPortafolioItem, IPortafolioPayload } from '../../../../core/api/portafolio/PortafolioTypes';
-import styles from './Administracion.module.scss';
+import stylesSource from './Administracion.module.scss';
+import { ModalForm } from '../shared/ui/ModalForm';
+import ListTable from '../shared/ui/ListTable';
+import { PrimaryButton, DefaultButton } from '@fluentui/react';
+
+const styles = stylesSource as Record<string, string>;
 
 interface AdministracionProps {
   spfxContext: WebPartContext;
@@ -15,225 +20,185 @@ const initialForm: IPortafolioPayload = {
   moneda_base: undefined
 };
 
+interface TabItem {
+  id: string;
+  label: string;
+  icon?: string;
+}
+
+const tabs: TabItem[] = [
+  { id: 'jerarquia', label: 'Jerarquía', icon: 'OrgChart' },
+  { id: 'objetivos', label: 'Objetivos', icon: 'Target' },
+  { id: 'riesgos', label: 'Riesgos', icon: 'AlertSolid' },
+  { id: 'capturas', label: 'Tipo de Captura', icon: 'Input' },
+  { id: 'impacto', label: 'Tipo de Impacto', icon: 'PreviewLink' },
+  { id: 'unidades', label: 'Unidad de Medida', icon: 'Ruler' },
+  { id: 'usuarios', label: 'Usuarios', icon: 'People' },
+  { id: 'tablero', label: 'Tablero', icon: 'BarChart4' }
+];
+
+// Mock data for demonstration
+const mockData: Record<string, Array<Record<string, string>>> = {
+  jerarquia: [
+    { area: 'Upstream', negocio: 'Todos/A definir', palanca: 'Construcción de Pozos', subpalanca: 'Etapa 10', referente: 'SELZER, FEDERICO' },
+    { area: 'Upstream', negocio: 'Todos/A definir', palanca: 'Construcción de Pozos', subpalanca: 'Etapa 20', referente: 'BONVINI, MARIO ABEL' },
+    { area: 'Upstream', negocio: 'Todos/A definir', palanca: 'Construcción de Pozos', subpalanca: 'Etapa 30', referente: 'BONVINI, MARIO ABEL' },
+  ],
+  objetivos: [
+    { objetivo: 'Objetivo 1', descripcion: 'Descripción del objetivo 1', responsable: 'Usuario 1' },
+    { objetivo: 'Objetivo 2', descripcion: 'Descripción del objetivo 2', responsable: 'Usuario 2' },
+  ],
+  riesgos: [
+    { riesgo: 'Riesgo 1', probabilidad: 'Alta', impacto: 'Alto', mitigacion: 'Acción 1' },
+    { riesgo: 'Riesgo 2', probabilidad: 'Media', impacto: 'Medio', mitigacion: 'Acción 2' },
+  ],
+  capturas: [
+    { tipo: 'Captura 1', descripcion: 'Descripción captura 1' },
+    { tipo: 'Captura 2', descripcion: 'Descripción captura 2' },
+  ],
+  impacto: [
+    { tipo: 'Impacto Alto', valor: 'Alto' },
+    { tipo: 'Impacto Medio', valor: 'Medio' },
+  ],
+  unidades: [
+    { unidad: 'Metros', simbolo: 'm' },
+    { unidad: 'Kilos', simbolo: 'kg' },
+  ],
+  usuarios: [
+    { nombre: 'Usuario 1', email: 'user1@example.com', rol: 'Admin' },
+    { nombre: 'Usuario 2', email: 'user2@example.com', rol: 'Editor' },
+  ],
+  tablero: [
+    { indicador: 'Indicador 1', valor: '100', estado: 'OK' },
+    { indicador: 'Indicador 2', valor: '95', estado: 'OK' },
+  ]
+};
+
 const Administracion: React.FC<AdministracionProps> = ({ spfxContext }) => {
-  const { fields, items, loading, error, refresh, createItem, updateItem, deleteItem } = usePortafolio(spfxContext);
-  const [form, setForm] = useState<IPortafolioPayload>(initialForm);
-  const [selectedItem, setSelectedItem] = useState<IPortafolioItem | null>(null);
-  const [formMode, setFormMode] = useState<'new' | 'edit'>('new');
-  const [submitting, setSubmitting] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
-  const [formError, setFormError] = useState<string | null>(null);
+  const { fields, items, loading, error, refresh } = usePortafolio(spfxContext);
+  const [activeTab, setActiveTab] = useState('jerarquia');
+  const [showModal, setShowModal] = useState(false);
 
-  const handleNew = (): void => {
-    setSelectedItem(null);
-    setFormMode('new');
-    setForm(initialForm);
-    setMessage(null);
-    setFormError(null);
-  };
+  const tabData = mockData[activeTab] || [];
+  const tabColumns = tabData.length > 0 ? Object.keys(tabData[0]).map(key => ({ key, title: key.charAt(0).toUpperCase() + key.slice(1) })) : [];
 
-  const handleEdit = (item: IPortafolioItem): void => {
-    setSelectedItem(item);
-    setFormMode('edit');
-    setForm({
-      Title: item.Title || '',
-      Descripcion: item.Descripcion || '',
-      moneda_base: item.moneda_base === 'USD' || item.moneda_base === 'ARS' ? item.moneda_base : undefined
-    });
-    setMessage(null);
-    setFormError(null);
-  };
-
-  const handleDelete = async (item: IPortafolioItem): Promise<void> => {
-    if (!item.ID && !item.id) {
-      setFormError('No se encontró el ID del portafolio.');
-      return;
-    }
-
-    const confirmDelete = window.confirm(`¿Eliminar portafolio '${item.Title || 'sin título'}'?`);
-    if (!confirmDelete) {
-      return;
-    }
-
-    setSubmitting(true);
-    setFormError(null);
-
-    try {
-      await deleteItem(item.ID || item.id || 0);
-      setMessage(`Portafolio eliminado: ${item.Title}`);
-      if (selectedItem?.ID === item.ID) {
-        handleNew();
-      }
-      await refresh();
-    } catch (err) {
-      setFormError((err as Error).message || 'Error eliminando portafolio.');
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    event.preventDefault();
-
-    if (!form.Title.trim()) {
-      setFormError('El campo Nombre es obligatorio.');
-      return;
-    }
-
-    if (form.moneda_base !== 'USD' && form.moneda_base !== 'ARS') {
-      setFormError('La moneda base debe ser USD o ARS.');
-      return;
-    }
-
-    setSubmitting(true);
-    setFormError(null);
-
-    try {
-      if (formMode === 'new') {
-        const created = await createItem(form);
-        setMessage(`Portafolio creado: ${created.Title}`);
-      } else if (selectedItem?.ID || selectedItem?.id) {
-        await updateItem(selectedItem.ID || selectedItem.id || 0, form);
-        setMessage(`Portafolio actualizado: ${form.Title}`);
-      }
-      handleNew();
-      await refresh();
-    } catch (err) {
-      setFormError((err as Error).message || 'Error guardando portafolio.');
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void => {
-    const { name, value } = event.target;
-    setForm((current) => ({ ...current, [name]: value }));
+  const handleAddNew = (): void => {
+    setShowModal(true);
   };
 
   return (
-    <main className={styles.administracion}>
-      <div className={styles.header}>
-        <h1>Administración</h1>
-        <p>Gestiona portafolios y configuración de la aplicación</p>
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', backgroundColor: '#f5f5f5' }}>
+      {/* Header */}
+      <div style={{ backgroundColor: '#fff', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '2rem', flexShrink: 0 }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h1 style={{ margin: 0, fontSize: '1.75rem', fontWeight: 700, color: '#031330' }}>ABM de Jerarquía</h1>
+          <button style={{ padding: '0.75rem 1.5rem', backgroundColor: '#0B5DAA', color: 'white', border: 'none', borderRadius: '6px', fontSize: '1rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }} onClick={handleAddNew}>
+            <span style={{ fontSize: '1.2rem' }}>+</span> Agregar Jerarquía
+          </button>
+        </div>
       </div>
 
-      <section className={styles.section}>
-        <h2>Portafolios</h2>
-        <div className={styles.abmGrid}> 
-          <div className={styles.abmCard}>
-            <div className={styles.cardHeader}>
-              <h3>{formMode === 'new' ? 'Nuevo Portafolio' : 'Editar Portafolio'}</h3>
-              <button type="button" className={styles.buttonSecondary} onClick={handleNew}>
-                Nuevo
-              </button>
-            </div>
-            <form className={styles.form} onSubmit={handleSubmit}>
-              <label className={styles.formLabel} htmlFor="Title">Nombre</label>
-              <input
-                id="Title"
-                name="Title"
-                type="text"
-                value={form.Title}
-                onChange={handleChange}
-                className={styles.formInput}
-                disabled={submitting}
-              />
+      {/* Tabs Navigation */}
+      <div style={{ backgroundColor: '#fff', borderBottom: '1px solid rgba(0,0,0,0.06)', overflowX: 'auto', flexShrink: 0 }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', gap: 0, padding: 0, listStyle: 'none' }}>
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              style={{
+                padding: '1rem 1.25rem',
+                border: 'none',
+                background: 'none',
+                color: activeTab === tab.id ? '#0B5DAA' : '#666',
+                fontSize: '0.95rem',
+                fontWeight: activeTab === tab.id ? 600 : 500,
+                cursor: 'pointer',
+                borderBottom: activeTab === tab.id ? '3px solid #0B5DAA' : '3px solid transparent',
+                transition: 'all 0.3s ease',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
-              <label className={styles.formLabel} htmlFor="Descripcion">Descripción</label>
-              <textarea
-                id="Descripcion"
-                name="Descripcion"
-                value={form.Descripcion}
-                onChange={handleChange}
-                className={styles.formTextarea}
-                disabled={submitting}
-              />
-
-              <label className={styles.formLabel} htmlFor="moneda_base">Moneda base</label>
-              <select
-                id="moneda_base"
-                name="moneda_base"
-                value={form.moneda_base ?? ''}
-                onChange={handleChange}
-                className={styles.formInput}
-                disabled={submitting}
-              >
-                <option value="">Selecciona una moneda</option>
-                <option value="USD">USD</option>
-                <option value="ARS">ARS</option>
-              </select>
-
-              {formError && <div className={styles.messageError}>{formError}</div>}
-              {message && <div className={styles.messageInfo}>{message}</div>}
-
-              <button type="submit" className={styles.buttonPrimary} disabled={submitting}>
-                {submitting ? 'Guardando...' : 'Guardar Portafolio'}
-              </button>
-            </form>
-          </div>
-
-          <div className={styles.abmCard}>
-            <h3>Lista de Portafolios</h3>
-            {loading && <p>Cargando portafolios...</p>}
-            {error && <p className={styles.messageError}>{error.message}</p>}
-            {!loading && !error && (
-              <div className={styles.tableWrapper}>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th>Nombre</th>
-                      <th>Moneda</th>
-                      <th>Creado</th>
-                      <th>Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {items.map((item) => (
-                      <tr key={item.ID || item.id}>
-                        <td>{item.Title || '-'}</td>
-                        <td>{item.moneda_base || '-'}</td>
-                        <td>{item.Created ? new Date(item.Created).toLocaleDateString() : '-'}</td>
-                        <td className={styles.actionsCell}>
-                          <button type="button" className={styles.buttonSecondary} onClick={() => handleEdit(item)}>
-                            Editar
-                          </button>
-                          <button type="button" className={styles.buttonDanger} onClick={() => handleDelete(item)}>
-                            Eliminar
-                          </button>
-                        </td>
-                      </tr>
+      {/* Content Area */}
+      <div style={{ flex: 1, overflowY: 'auto', padding: '2rem' }}>
+        {/* Table */}
+        <div style={{ maxWidth: '1400px', margin: '0 auto', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)', overflow: 'hidden' }}>
+          {loading && <p style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>Cargando datos...</p>}
+          {error && <p style={{ padding: '2rem', textAlign: 'center', color: '#d32f2f' }}>{error.message}</p>}
+          
+          {!loading && !error && (
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.95rem' }}>
+              <thead>
+                <tr style={{ backgroundColor: 'rgba(11, 93, 170, 0.05)', borderBottom: '2px solid rgba(11, 93, 170, 0.1)' }}>
+                  {tabColumns.map((col) => (
+                    <th key={col.key} style={{ padding: '1rem', textAlign: 'left', color: '#031330', fontWeight: 600, backgroundColor: 'rgba(11, 93, 170, 0.05)' }}>
+                      {col.title}
+                    </th>
+                  ))}
+                  <th style={{ padding: '1rem', textAlign: 'left', color: '#031330', fontWeight: 600, backgroundColor: 'rgba(11, 93, 170, 0.05)' }}>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tabData.map((row, idx) => (
+                  <tr key={idx} style={{ borderBottom: '1px solid rgba(0,0,0,0.06)', transition: 'background-color 0.2s ease' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(11, 93, 170, 0.02)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
+                    {tabColumns.map((col) => (
+                      <td key={col.key} style={{ padding: '1rem', color: '#031330', verticalAlign: 'middle' }}>
+                        {row[col.key]}
+                      </td>
                     ))}
-                    {items.length === 0 && (
-                      <tr>
-                        <td colSpan={4}>No hay portafolios registrados.</td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
+                    <td style={{ padding: '1rem', color: '#031330', verticalAlign: 'middle' }}>
+                      <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                        <button title="Editar" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '36px', height: '36px', border: 'none', backgroundColor: 'rgba(11, 93, 170, 0.1)', color: '#0B5DAA', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem', transition: 'all 0.2s ease' }}>
+                          <i className="ms-Icon ms-Icon--Edit" />
+                        </button>
+                        <button title="Eliminar" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '36px', height: '36px', border: 'none', backgroundColor: 'rgba(11, 93, 170, 0.1)', color: '#0B5DAA', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem', transition: 'all 0.2s ease' }}>
+                          <i className="ms-Icon ms-Icon--Delete" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
-      </section>
+      </div>
 
-      <section className={styles.section}>
-        <h2>Información del Sistema</h2>
-        <div className={styles.infoGrid}>
-          <div className={styles.infoCard}>
-            <h3>Campos disponibles</h3>
-            <p>{fields.length}</p>
-          </div>
-          <div className={styles.infoCard}>
-            <h3>Última carga</h3>
-            <p>{new Date().toLocaleString()}</p>
-          </div>
-          <div className={styles.infoCard}>
-            <h3>Estado</h3>
-            <p className={styles.statusOk}>✓ Operativo</p>
-          </div>
-        </div>
-      </section>
-    </main>
+      {/* Modal Form */}
+      {(() => {
+        const currentTab = tabs.filter(t => t.id === activeTab)[0];
+        const modalTitle = currentTab ? `Agregar ${currentTab.label}` : 'Agregar Elemento';
+        return (
+          <ModalForm title={modalTitle} isOpen={showModal} onClose={() => setShowModal(false)} onSubmit={() => { /* handle submit */ }}>
+            <form style={{ display: 'grid', gap: '1rem' }} onSubmit={(e) => { e.preventDefault(); setShowModal(false); }}>
+              <div>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, color: '#031330', fontSize: '0.95rem' }}>Nombre</label>
+                <input type="text" placeholder="Ingrese el nombre" style={{ width: '100%', padding: '0.75rem', border: '1px solid rgba(0,0,0,0.12)', borderRadius: '4px', fontSize: '0.95rem', fontFamily: 'inherit' }} />
+              </div>
+              
+              <div>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, color: '#031330', fontSize: '0.95rem' }}>Descripción</label>
+                <textarea placeholder="Ingrese la descripción" style={{ width: '100%', padding: '0.75rem', border: '1px solid rgba(0,0,0,0.12)', borderRadius: '4px', fontSize: '0.95rem', fontFamily: 'inherit', minHeight: '100px', resize: 'vertical' }} />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px', gap: '8px' }}>
+                <button type="button" onClick={() => setShowModal(false)} style={{ padding: '0.75rem 1.5rem', backgroundColor: 'rgba(0,0,0,0.06)', color: '#031330', border: 'none', borderRadius: '4px', fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer' }}>
+                  Cancelar
+                </button>
+                <button type="submit" style={{ padding: '0.75rem 1.5rem', backgroundColor: '#0B5DAA', color: 'white', border: 'none', borderRadius: '4px', fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer' }}>
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </ModalForm>
+        );
+      })()}
+    </div>
   );
 };
 

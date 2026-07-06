@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import stylesSource from './GaleriaInstrumentos.module.scss';
+import { CardLink } from '../shared/ui/CardLink';
 
 const styles = stylesSource as Record<string, string>;
 
@@ -48,10 +49,7 @@ const GaleriaInstrumentos: React.FC = () => {
       <div className={styles.grid}>
         {filteredInstrumentos.map((instrumento) => (
           <div key={instrumento.id} className={styles.card}>
-            <div className={styles.cardIcon}>{instrumento.icono}</div>
-            <h3>{instrumento.nombre}</h3>
-            <p>{instrumento.descripcion}</p>
-            <button className={styles.button}>Ver Detalles</button>
+            <CardLink title={instrumento.nombre} subtitle={instrumento.descripcion} onClick={() => { /* navigate to details */ }} icon={<span style={{ fontSize: 28 }}>{instrumento.icono}</span>} />
           </div>
         ))}
       </div>
