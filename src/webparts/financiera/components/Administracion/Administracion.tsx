@@ -27,56 +27,22 @@ interface TabItem {
 }
 
 const tabs: TabItem[] = [
-  { id: 'jerarquia', label: 'Jerarquía', icon: 'OrgChart' },
-  { id: 'objetivos', label: 'Objetivos', icon: 'Target' },
-  { id: 'riesgos', label: 'Riesgos', icon: 'AlertSolid' },
-  { id: 'capturas', label: 'Tipo de Captura', icon: 'Input' },
-  { id: 'impacto', label: 'Tipo de Impacto', icon: 'PreviewLink' },
-  { id: 'unidades', label: 'Unidad de Medida', icon: 'Ruler' },
-  { id: 'usuarios', label: 'Usuarios', icon: 'People' },
-  { id: 'tablero', label: 'Tablero', icon: 'BarChart4' }
+  { id: 'portafolio', label: 'Portafolio', icon: 'OrgChart' }
 ];
+
 
 // Mock data for demonstration
 const mockData: Record<string, Array<Record<string, string>>> = {
-  jerarquia: [
-    { area: 'Upstream', negocio: 'Todos/A definir', palanca: 'Construcción de Pozos', subpalanca: 'Etapa 10', referente: 'SELZER, FEDERICO' },
-    { area: 'Upstream', negocio: 'Todos/A definir', palanca: 'Construcción de Pozos', subpalanca: 'Etapa 20', referente: 'BONVINI, MARIO ABEL' },
-    { area: 'Upstream', negocio: 'Todos/A definir', palanca: 'Construcción de Pozos', subpalanca: 'Etapa 30', referente: 'BONVINI, MARIO ABEL' },
-  ],
-  objetivos: [
-    { objetivo: 'Objetivo 1', descripcion: 'Descripción del objetivo 1', responsable: 'Usuario 1' },
-    { objetivo: 'Objetivo 2', descripcion: 'Descripción del objetivo 2', responsable: 'Usuario 2' },
-  ],
-  riesgos: [
-    { riesgo: 'Riesgo 1', probabilidad: 'Alta', impacto: 'Alto', mitigacion: 'Acción 1' },
-    { riesgo: 'Riesgo 2', probabilidad: 'Media', impacto: 'Medio', mitigacion: 'Acción 2' },
-  ],
-  capturas: [
-    { tipo: 'Captura 1', descripcion: 'Descripción captura 1' },
-    { tipo: 'Captura 2', descripcion: 'Descripción captura 2' },
-  ],
-  impacto: [
-    { tipo: 'Impacto Alto', valor: 'Alto' },
-    { tipo: 'Impacto Medio', valor: 'Medio' },
-  ],
-  unidades: [
-    { unidad: 'Metros', simbolo: 'm' },
-    { unidad: 'Kilos', simbolo: 'kg' },
-  ],
-  usuarios: [
-    { nombre: 'Usuario 1', email: 'user1@example.com', rol: 'Admin' },
-    { nombre: 'Usuario 2', email: 'user2@example.com', rol: 'Editor' },
-  ],
-  tablero: [
-    { indicador: 'Indicador 1', valor: '100', estado: 'OK' },
-    { indicador: 'Indicador 2', valor: '95', estado: 'OK' },
+  portafolio: [
+    { id: '1', nombre: 'Portafolio 1', descripcion: 'Descripción del portafolio 1' },
+    { id: '2', nombre: 'Portafolio 2', descripcion: 'Descripción del portafolio 2' },
+    { id: '3', nombre: 'Portafolio 3', descripcion: 'Descripción del portafolio 3' }
   ]
 };
 
 const Administracion: React.FC<AdministracionProps> = ({ spfxContext }) => {
   const { fields, items, loading, error, refresh } = usePortafolio(spfxContext);
-  const [activeTab, setActiveTab] = useState('jerarquia');
+  const [activeTab, setActiveTab] = useState('portafolio');
   const [showModal, setShowModal] = useState(false);
 
   const tabData = mockData[activeTab] || [];
@@ -91,9 +57,9 @@ const Administracion: React.FC<AdministracionProps> = ({ spfxContext }) => {
       {/* Header */}
       <div style={{ backgroundColor: '#fff', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '2rem', flexShrink: 0 }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h1 style={{ margin: 0, fontSize: '1.75rem', fontWeight: 700, color: '#031330' }}>ABM de Jerarquía</h1>
+          <h1 style={{ margin: 0, fontSize: '1.75rem', fontWeight: 700, color: '#031330' }}>ABM de Portafolios</h1>
           <button style={{ padding: '0.75rem 1.5rem', backgroundColor: '#0B5DAA', color: 'white', border: 'none', borderRadius: '6px', fontSize: '1rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }} onClick={handleAddNew}>
-            <span style={{ fontSize: '1.2rem' }}>+</span> Agregar Jerarquía
+            <span style={{ fontSize: '1.2rem' }}>+</span> Agregar Portafolio
           </button>
         </div>
       </div>
